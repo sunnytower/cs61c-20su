@@ -70,7 +70,14 @@ int main(int argc, char **argv) {
  */
 unsigned int stringHash(void *s) {
   char *string = (char *)s;
+  const int para = 17;
   // -- TODO --
+  unsigned int ret = 0;
+  int c;
+  while((c = *(string++))) {
+    ret += ret * para + c;
+  }
+  return ret;
 }
 
 /*
@@ -81,6 +88,10 @@ int stringEquals(void *s1, void *s2) {
   char *string1 = (char *)s1;
   char *string2 = (char *)s2;
   // -- TODO --
+  if(strcmp(string1, string2) == 0) {
+    return 1;
+  }
+  return 0;
 }
 
 /*
@@ -101,6 +112,35 @@ int stringEquals(void *s1, void *s2) {
  */
 void readDictionary(char *dictName) {
   // -- TODO --
+  FILE *fp = fopen(dictName, "r");
+  if (fp == NULL) {
+    fprintf(stderr, "cant find the file.");
+    exit(1);
+  }
+  int size = 60;
+  char *word = (char *)malloc(sizeof(char) * size);
+  int c,i = 0;
+
+  while ((c = fgetc(fp)) != EOF) {
+    if (i == size) {
+      size *= 2;
+      word = (char *)realloc(word, size);
+    }
+    if (c == '\n') {
+      char *key = (char *)malloc((i + 1) * sizeof(char));
+      memcpy(key, word, i);
+      key[i] = '\0';
+      if(findData(dictionary,key) == NULL) {
+        insertData(dictionary, key, key);
+      }
+      i = 0;
+      continue;
+    }
+    word[i] = c;
+    i ++;
+  }
+  fclose(fp);
+  free(word);
 }
 
 /*
@@ -126,4 +166,60 @@ void readDictionary(char *dictName) {
  */
 void processInput() {
   // -- TODO --
+   int size = 60;
+  char *str1 = (char *)malloc(sizeof(char) * size);
+  char *str2 = (char *)malloc(sizeof(char) * size);
+  char *str3 = (char *)malloc(sizeof(char) * size);
+  int c, i = 0;
+  while((c = fgetc(stdin)) != EOF) {
+    if(i == size) {
+      size *= 2;
+      str1 = (char *)realloc(str1, size);
+      str2 = (char *)realloc(str2, size);
+      str3 = (char *)realloc(str3, size);
+    }
+    if(isalpha(c)) {
+      // 1. The word itself
+      str1[i] = (char) c;
+      // 2. The word converted entirely to lowercase letters
+      str2[i] = (char) tolower(c);
+      // 3. The word with all but the first letter converted to lowercase.
+      // if(i == 0) {
+      //   str3[i] = (char) toupper(c);
+      // } else {
+      //   str3[i] = (char) tolower(c);
+      // }
+      str3[i] = (i == 0) ? c : (char)tolower(c);
+      i += 1;    
+    } else {
+     if(isalpha(str1[0])) {
+       str1[i] = '\0';
+       str2[i] = '\0';
+       str3[i] = '\0';
+       if (findData(dictionary, str1) == NULL && findData(dictionary, str2) == NULL && findData(dictionary, str3) == NULL) {
+         fprintf(stdout, "%s [sic]%c", str1, c);
+       } else {
+         fprintf(stdout, "%s%c", str1, c);
+       }
+     } else {
+       fprintf(stdout, "%c", c);
+     }
+
+     i = 0;
+     memset(str1, 0, strlen(str1));
+     memset(str2, 0, strlen(str2));
+     memset(str3, 0, strlen(str3));
+   }
+  }
+  if(isalpha(str1[0])) {
+       str1[i] = '\0';
+       str2[i] = '\0';
+       str3[i] = '\0';
+       if (findData(dictionary, str1) == NULL && findData(dictionary, str2) == NULL && findData(dictionary, str3) == NULL) {
+         fprintf(stdout, "%s [sic]", str1);
+       }
+     }
+  free(str1);
+  free(str2);
+  free(str3);
 }
