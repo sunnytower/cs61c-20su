@@ -41,10 +41,9 @@ int main(int argc, char **argv) {
     printf("0 = %d\n", vector_get(v, 1));
     printf("0 = %d\n", vector_get(v, 501));
     printf("3 = %d\n", vector_get(v, 500));
-
     vector_delete(v);
 
     printf("Test complete.\n");
-
+    
     return 0;
 }
