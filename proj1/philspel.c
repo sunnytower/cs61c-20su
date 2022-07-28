@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
  */
 unsigned int stringHash(void *s) {
   char *string = (char *)s;
-  const int para = 17;
+  const int para = 27;
   // -- TODO --
   unsigned int ret = 0;
   int c;
