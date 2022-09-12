@@ -497,7 +497,7 @@
     </comp>
     <comp lib="4" loc="(730,340)" name="Register">
       <a name="width" val="32"/>
-      <a name="label" val="ra_"/>
+      <a name="label" val="ra_d2350c02"/>
     </comp>
     <comp lib="0" loc="(550,390)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -572,7 +572,7 @@
     </comp>
     <comp lib="4" loc="(730,470)" name="Register">
       <a name="width" val="32"/>
-      <a name="label" val="sp_"/>
+      <a name="label" val="sp_358ea926"/>
     </comp>
     <comp lib="0" loc="(570,610)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -593,7 +593,7 @@
     </comp>
     <comp lib="4" loc="(730,590)" name="Register">
       <a name="width" val="32"/>
-      <a name="label" val="t0_"/>
+      <a name="label" val="t0_8974bb8d"/>
     </comp>
     <comp lib="0" loc="(570,740)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -614,11 +614,11 @@
     </comp>
     <comp lib="4" loc="(730,720)" name="Register">
       <a name="width" val="32"/>
-      <a name="label" val="t1_"/>
+      <a name="label" val="t1_582e9551"/>
     </comp>
     <comp lib="4" loc="(730,860)" name="Register">
       <a name="width" val="32"/>
-      <a name="label" val="t2_"/>
+      <a name="label" val="t2_94f4f8ae"/>
     </comp>
     <comp lib="0" loc="(500,940)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -639,7 +639,7 @@
     </comp>
     <comp lib="4" loc="(730,980)" name="Register">
       <a name="width" val="32"/>
-      <a name="label" val="s0_"/>
+      <a name="label" val="s0_08940166"/>
     </comp>
     <comp lib="0" loc="(550,1030)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -677,7 +677,7 @@
     </comp>
     <comp lib="4" loc="(730,1100)" name="Register">
       <a name="width" val="32"/>
-      <a name="label" val="s1_"/>
+      <a name="label" val="s1_bfbc29ca"/>
     </comp>
     <comp lib="0" loc="(500,1310)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -694,7 +694,7 @@
     </comp>
     <comp lib="4" loc="(730,1230)" name="Register">
       <a name="width" val="32"/>
-      <a name="label" val="a0_"/>
+      <a name="label" val="a0_37dc6039"/>
     </comp>
     <comp lib="0" loc="(550,1280)" name="Tunnel">
       <a name="facing" val="east"/>
