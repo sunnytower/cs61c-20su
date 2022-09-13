@@ -56,7 +56,7 @@ long long int sum_simd(unsigned int vals[NUM_ELEMS]) {
 		unsigned int i = 0;
 		int sums_int[4] = {0, 0, 0, 0};
 		__m128i sums = _mm_setzero_si128();
-		for (; i < NUM_ELEMS - 4; i+=4) {
+		for (; i < NUM_ELEMS - 4; i += 4) {
 			__m128i vals_simd = _mm_loadu_si128((__m128i *) (vals + i));
 			__m128i masks = _mm_cmpgt_epi32(vals_simd, _127);
 			vals_simd = _mm_and_si128(vals_simd, masks);
@@ -83,7 +83,43 @@ long long int sum_simd_unrolled(unsigned int vals[NUM_ELEMS]) {
 	for(unsigned int w = 0; w < OUTER_ITERATIONS; w++) {
 		/* COPY AND PASTE YOUR sum_simd() HERE */
 		/* MODIFY IT BY UNROLLING IT */
+		unsigned int i = 0;
+		int sums_int[4] = {0, 0, 0, 0};
+		__m128i sums = _mm_setzero_si128();
+		for (; i < NUM_ELEMS - 16; i += 16) {
+			__m128i vals_simd = _mm_loadu_si128((__m128i *) (vals + i));
+			__m128i masks = _mm_cmpgt_epi32(vals_simd, _127);
+			vals_simd = _mm_and_si128(vals_simd, masks);
+			sums = _mm_add_epi32(vals_simd, sums);
 
+			vals_simd = _mm_loadu_si128((__m128i *) (vals + i + 4));
+			masks = _mm_cmpgt_epi32(vals_simd, _127);
+			vals_simd = _mm_and_si128(vals_simd, masks);
+			sums = _mm_add_epi32(vals_simd, sums);
+
+			vals_simd = _mm_loadu_si128((__m128i *) (vals + i + 8));
+			masks = _mm_cmpgt_epi32(vals_simd, _127);
+			vals_simd = _mm_and_si128(vals_simd, masks);
+			sums = _mm_add_epi32(vals_simd, sums);
+
+			vals_simd = _mm_loadu_si128((__m128i *) (vals + i + 12));
+			masks = _mm_cmpgt_epi32(vals_simd, _127);
+			vals_simd = _mm_and_si128(vals_simd, masks);
+			sums = _mm_add_epi32(vals_simd, sums);
+		}
+		for (; i < NUM_ELEMS - 4; i+=4) {
+			__m128i vals_simd = _mm_loadu_si128((__m128i *) (vals + i));
+			__m128i masks = _mm_cmpgt_epi32(vals_simd, _127);
+			vals_simd = _mm_and_si128(vals_simd, masks);
+			sums = _mm_add_epi32(vals_simd, sums);
+		}
+		_mm_storeu_si128((__m128i *)sums_int, sums);
+		for (int j = 0; j < 4; j++) {
+			result += sums_int[j];
+		}
+		for (;i < NUM_ELEMS; i++) {
+			result += vals[i];
+		}
 		/* You'll need 1 or maybe 2 tail cases here. */
 
 	}
