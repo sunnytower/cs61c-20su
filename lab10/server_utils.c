@@ -22,15 +22,7 @@ const char *template_str = "<!DOCTYPE html> \
 </body> \
 </html>";
 
-/** Serves the file at path to the the socket fd. */
-void handle_report_request(int socket_fd, int arr_size) {
-   char *result = compute_dotp(arr_size);
-   int size = strlen(result);
-   http_make_header(socket_fd, "text/html", 200, size);
-   http_send_data(socket_fd, result, size);
-   free(result);
-}
-
+/** Serves the file at path to the the socket fd. 
 void http_make_header(int sfd,  char *ftype, int status_code, __off_t size) {
    http_start_response(sfd, 200);
    http_send_header(sfd, content_type, ftype);
@@ -251,13 +243,13 @@ void serve_forever(int *socket_number) {
 #ifdef PROC
       // PART2 TASK: Implement forking
       /* YOUR CODE HERE */
-
-      if (/* YOUR CODE HERE */) {
+      pid_t child_pid = fork();
+      if (child_pid == 0) {
          // Kill child process if parent dies
          int r = prctl(PR_SET_PDEATHSIG, SIGTERM);
 
          /* YOUR CODE HERE */
-         
+         dispatch(client_socket_number);
          // Exit with code 1 when there was an error, 
          // or when the parent has been killed
          if (r == -1 || getppid() != parent_pid) {
@@ -266,6 +258,7 @@ void serve_forever(int *socket_number) {
          }
 
          /* YOUR CODE HERE */
+         exit(3);
       }
 #else
       dispatch(client_socket_number);
