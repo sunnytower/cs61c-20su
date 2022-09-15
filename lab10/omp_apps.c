@@ -24,10 +24,23 @@ double dotp_manual_optimized(double* x, double* y, int arr_size) {
   double global_sum = 0.0;
 #pragma omp parallel
   {
-#pragma omp for
-    for (int i = 0; i < arr_size; i++)
+		int id = omp_get_thread_num();
+		int threads_num = omp_get_num_threads();
+		int tasks = arr_size / threads_num;
+		int start = id * tasks;
+		int end = start + tasks;
+    double local_sums = 0;
+		for(int i=start; i<end; i++) {
+			local_sums += x[i] * y[i];
+		}
+		if (end < arr_size && id == threads_num - 1)
+		{
+			for (int i = end; i < arr_size; i++) {
+		  local_sums += x[i] * y[i];
+			}
+		}
 #pragma omp critical
-      global_sum += x[i] * y[i];
+      global_sum += local_sums;
   }
   return global_sum;
 }
@@ -37,9 +50,8 @@ double dotp_reduction_optimized(double* x, double* y, int arr_size) {
   double global_sum = 0.0;
 #pragma omp parallel
   {
-#pragma omp for
+#pragma omp for reduction(+: global_sum)
     for (int i = 0; i < arr_size; i++)
-#pragma omp critical
       global_sum += x[i] * y[i];
   }
   return global_sum;

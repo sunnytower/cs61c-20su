@@ -31,7 +31,7 @@ void v_add_optimized_chunks(double* x, double* y, double* z) {
           #pragma omp parallel
 	{
 		int id = omp_get_thread_num();
-		int threads_num = omp_get_max_threads();
+		int threads_num = omp_get_num_threads();
 		int tasks = ARRAY_SIZE / threads_num;
 		int start = id * tasks;
 		int end = start + tasks;
